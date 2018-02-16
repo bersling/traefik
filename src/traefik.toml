@@ -1,0 +1,50 @@
+defaultEntryPoints = ["http", "https"]
+
+[web]
+# Port for the status page
+address = ":8080"
+
+# Entrypoints, http and https
+[entryPoints]
+  # http should be redirected to https
+  [entryPoints.http]
+  address = ":80"
+    [entryPoints.http.redirect]
+    entryPoint = "https"
+  # https is the default
+  [entryPoints.https]
+  address = ":443"
+    [entryPoints.https.tls]
+
+
+[acme]
+storageFile = "/acme.json"
+entryPoint = "https"
+email = "bersling@gmail.com"
+OnHostRule = true
+onDemand = true
+[acme.httpChallenge]
+entryPoint = "http"
+
+[[acme.domains]]
+   main = "tsmean.com"
+   sans = ["animals2.tsmean.com", "visualizer.tsmean.com", "mailchimp2.tsmean.com"]
+
+#   sans = [
+#   "demo.tsmean.com",
+#   "mailchimp.tsmean.com",
+#   "notify.tsmean.com",
+#   "spinner.tsmean.com",
+#   "visualizer.tsmean.com"
+#   ]
+#[[acme.domains]]
+#   main = "zhedus.com"
+#   sans = []
+#[[acme.domains]]
+#   main = "putzfrau-suche.ch"
+#   sans = ["www.putzfrau-suche.ch"]
+
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+watch = true

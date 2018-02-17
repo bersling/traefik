@@ -30,6 +30,9 @@ services:
       - "traefik.domain=tsmean.com"
   mailchimp:
     image: bersling/mailchimp
+    secrets:
+      config:
+        file: ./secrets/mailchimp.json
     labels:
       - "traefik.frontend.rule=Host:mailchimp2.tsmean.com"
       - "traefik.domain=tsmean.com"

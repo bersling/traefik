@@ -21,9 +21,15 @@ services:
      - "8080:8080"
   visualizer:
     image: dockersamples/visualizer
+    networks:
+      - web
     deploy:
       placement:
         constraints: [node.role == manager]
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:

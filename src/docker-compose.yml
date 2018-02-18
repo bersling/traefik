@@ -6,7 +6,13 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.toml:/etc/traefik/traefik.toml:ro
       - /acme.json:/acme.json # needs to be created manually and you need to set chmod 600
+    networks:
+      - web
     deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
       placement:
         constraints: [node.role == manager]
     ports:
@@ -23,24 +29,14 @@ services:
     labels:
       - "traefik.frontend.rule=Host:visualizer.tsmean.com"
       - "traefik.domain=tsmean.com"
-  animals:
-    image: bersling/animals
-    labels:
-      - "traefik.frontend.rule=Host:animals2.tsmean.com"
-      - "traefik.domain=tsmean.com"
-  mailchimp:
-    image: bersling/mailchimp
-    secrets:
-      - mailchimp.json
-    labels:
-      - "traefik.frontend.rule=Host:mailchimp2.tsmean.com"
-      - "traefik.domain=tsmean.com"
-
 
 secrets:
   mailchimp.json:
     file: ./secrets/mailchimp.json
 
+networks:
+  web:
+    external: true
 
 #  demo-tsmean:
 #    image: bersling/demo-tsmean

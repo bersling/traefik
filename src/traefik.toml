@@ -16,6 +16,7 @@ address = ":8080"
   address = ":443"
     [entryPoints.https.tls]
 
+[retry]
 
 [acme]
 storageFile = "/acme.json"

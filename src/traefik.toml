@@ -24,8 +24,6 @@ entryPoint = "https"
 email = "bersling@gmail.com"
 OnHostRule = true
 onDemand = true
-[acme.httpChallenge]
-entryPoint = "http"
 
   [acme.httpChallenge]
   entryPoint = "http"
@@ -41,3 +39,4 @@ entryPoint = "http"
 [docker]
 endpoint = "unix:///var/run/docker.sock"
 watch = true
+swarmmode = true

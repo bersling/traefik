@@ -23,7 +23,6 @@ storageFile = "/acme.json"
 entryPoint = "https"
 email = "bersling@gmail.com"
 OnHostRule = true
-onDemand = true
 
   [acme.httpChallenge]
   entryPoint = "http"

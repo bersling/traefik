@@ -1,7 +1,7 @@
 version: '3.2'
 services:
   traefik:
-    image: traefik
+    image: traefik:1.6
     env_file:
       - ./secrets/route53.env
     volumes:
@@ -9,7 +9,7 @@ services:
       - ./traefik.toml:/etc/traefik/traefik.toml:ro
       - /acme.json:/acme.json # needs to be created manually and you need to set chmod 600
     networks:
-      - web
+      - traefik
     deploy:
       resources:
         limits:
@@ -17,9 +17,10 @@ services:
           memory: 256M
       placement:
         constraints: [node.role == manager]
-    labels:
-      - "traefik.frontend.rule=Host:monitor.tsmean.com"
-      - "traefik.port=8080"
+      labels:
+        - "traefik.frontend.rule=Host:monitor.tsmean.com"
+        - "traefik.port=8080"
+        - "traefik.docker.network=traefik"
     ports:
      - "80:80"
      - "443:443"
@@ -27,7 +28,7 @@ services:
   visualizer:
     image: dockersamples/visualizer
     networks:
-      - web
+      - traefik
     deploy:
       placement:
         constraints: [node.role == manager]
@@ -35,16 +36,21 @@ services:
         limits:
           cpus: '0.50'
           memory: 256M
+      labels:
+        - "traefik.frontend.rule=Host:visualizer.tsmean.com"
+        - "traefik.port=8080"
+        - "traefik.docker.network=traefik"
+    ports:
+      - "8081:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    labels:
-      - "traefik.frontend.rule=Host:visualizer.tsmean.com"
-      - "traefik.domain=tsmean.com"
 
 secrets:
   mailchimp.json:
     file: ./secrets/mailchimp.json
 
 networks:
-  web:
-    external: true
+  traefik:
+    external:
+      name: traefik
+

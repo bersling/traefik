@@ -27,24 +27,16 @@ onDemand = true
 [acme.httpChallenge]
 entryPoint = "http"
 
-[[acme.domains]]
-   main = "tsmean.com"
-   sans = ["animals2.tsmean.com", "visualizer.tsmean.com", "mailchimp2.tsmean.com"]
+  [acme.httpChallenge]
+  entryPoint = "http"
 
-#   sans = [
-#   "demo.tsmean.com",
-#   "mailchimp.tsmean.com",
-#   "notify.tsmean.com",
-#   "spinner.tsmean.com",
-#   "visualizer.tsmean.com"
-#   ]
-#[[acme.domains]]
-#   main = "zhedus.com"
-#   sans = []
-#[[acme.domains]]
-#   main = "putzfrau-suche.ch"
-#   sans = ["www.putzfrau-suche.ch"]
+  [acme.dnsChallenge]
+  provider = "route53"
+  delayBeforeCheck = 0
 
+  [[acme.domains]]
+  main = "*.tsmean.com"
+  sans = ["tsmean.com"]
 
 [docker]
 endpoint = "unix:///var/run/docker.sock"

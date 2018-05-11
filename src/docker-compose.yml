@@ -2,6 +2,8 @@ version: '3.2'
 services:
   traefik:
     image: traefik
+    env_file:
+      - ./secrets/route53.env
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik.toml:/etc/traefik/traefik.toml:ro
@@ -43,25 +45,3 @@ secrets:
 networks:
   web:
     external: true
-
-#  demo-tsmean:
-#    image: bersling/demo-tsmean
-#    labels:
-#      - "traefik.frontend.rule=Host:demo.tsmean.com"
-#      - "traefik.domain=tsmean.com"
-#  spinner-tsmean:
-#    image: bersling/spinner-tsmean
-#    labels:
-#      - "traefik.frontend.rule=Host:spinner.tsmean.com"
-#      - "traefik.domain=tsmean.com"
-#  notify-tsmean:
-#    image: bersling/notify-tsmean
-#    labels:
-#      - "traefik.frontend.rule=Host:notify.tsmean.com"
-#      - "traefik.domain=tsmean.com"
-#  mailchimp-tsmean:
-#    image: bersling/mailchimp-tsmean
-#    labels:
-#      - "traefik.frontend.rule=Host:mailchimp.tsmean.com"
-#      - "traefik.domain=tsmean.com"
-
